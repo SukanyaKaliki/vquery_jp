@@ -6,38 +6,41 @@ import location from './icons/location.png';
 class AppliedJobs extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            comments: ''
+            };
 
-        this.toggle = this.toggle.bind(this);
-        this.state = {};
+        this.handleChangeComments = this.handleChangeComments.bind(this);
+        this.submitComments = this.submitComments.bind(this);
 
         //this.state = {firstName: '', lastName: '', emailAddress: '', type: '', contactNumber : '', password : '', confirmPassword: ''};
-        this.appliedJobs = [{"jobId":"1", "jobTitle":"Software Engineer", "experience":"12-15yrs", "location":"banglore","keySkills":"java,angular js","savedJob":'false'},
-        {"jobId":"2", "jobTitle":"Software Engineer2", "experience":"12-25yrs", "location":"banglore2","keySkills":"java,angular js2","savedJob":'false'},
-        {"jobId":"33", "jobTitle":"Software Engineer3", "experience":"12-35yrs", "location":"banglore3","keySkills":"java,angular js1","savedJob":'true'}];
+        this.appliedJobs = [{"jobId":"1", "jobTitle":"Software Engineer", "experience":"12-15yrs", "location":"banglore","keySkills":"java,angular js","savedJob":'false', "comments":''},
+        {"jobId":"2", "jobTitle":"Software Engineer2", "experience":"12-25yrs", "location":"banglore2","keySkills":"java,angular js2","savedJob":'false', "comments":''},
+        {"jobId":"33", "jobTitle":"Software Engineer3", "experience":"12-35yrs", "location":"banglore3","keySkills":"java,angular js1","savedJob":'true', "comments":''}];
       }
 
-      toggle(thing) {
-        this.setState({ collapse: this.state.collapse === thing ? null : thing });
+      handleChangeComments(event) {
+        this.setState({comments: event.target.value});
       }
 
-      openDiv(job) {
-          alert("job:::"+job);
-          this.state = { collapse: this.state.collapse === job ? null : job };
+      submitComments(jobId, event) {
+        alert('Interview feedback was submitted: ' + jobId+' '+this.state.comments);
+        //event.preventDefault();
       }
+
       
    render() {
        var length = this.appliedJobs.length;
        var rows = [];
-       for (var i = 0; i < length; i++) {
-           var job = this.appliedJobs[i];           
+       Object.keys(this.appliedJobs).map((key, index)=> {        
             rows.push(
-            <div>
+            <div key={key}>
                 <div className={"savedJobsDiv"} >
                     <div className={"JobsDiv"}>
-                        <div className={"jobTitleDiv"}>{job.jobTitle}</div>
+                        <div className={"jobTitleDiv"}>{this.appliedJobs[key].jobTitle}</div>
                         <div className={"experienceDiv"}>
                             <img src={ experience } className={"image"} />
-                            {job.experience} <img src={ location } className={"image"} /> {job.location}
+                            {this.appliedJobs[key].experience} <img src={ location } className={"image"} /> {this.appliedJobs[key].location}
                         </div>
                     </div>
                 </div>
@@ -47,12 +50,22 @@ class AppliedJobs extends Component {
                         <div>Interview Date:</div>
                         <div>Status:</div>
                         <div>Feedback:</div>
-                        <div>Comments:</div>
+                        <div>
+                            <form onSubmit={(event) => this.submitComments(this.appliedJobs[key].jobId, event)}>
+                                <div className={'labelDiv'}>
+                                    <label>
+                                        Comments:
+                                        <textarea value={this.state.value} placehlder="Please give your valuable feedback here." className={'textarea'} onChange={this.handleChangeComments} />
+                                    </label>
+                                </div>
+                                <input type="submit" className={'submitBtn'} value="Submit >" />
+                            </form>
+                        </div>
                     </div>
                 
             </div>
             );
-       }
+       });
       return (
          <div>
             <h2>Applied Jobs</h2>

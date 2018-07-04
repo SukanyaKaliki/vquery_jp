@@ -25,21 +25,20 @@ class SavedJobs extends Component {
    render() {
        var length = this.savedJobs.length;
        var rows = [];
-       for (var i = 0; i < length; i++) {
-           var job = this.savedJobs[i];           
+       Object.keys(this.savedJobs).map((key, index)=> {
             rows.push(
-            <div className={"savedJobsDiv"}>
+            <div className={"savedJobsDiv"} key={key}>
                 <div className={"JobsDiv"}>
-                    <div className={"jobTitleDiv"}>{job.jobTitle}</div>
+                    <div className={"jobTitleDiv"}>{this.savedJobs[key].jobTitle}</div>
                     <div className={"experienceDiv"}>
                         <img src={ experience } className={"image"} />
-                        {job.experience} <img src={ location } className={"image"} /> {job.location}
+                        {this.savedJobs[key].experience} <img src={ location } className={"image"} /> {this.savedJobs[key].location}
                     </div>
-                    <div><button onClick={(e) => this.applyForJob(job.jobId, e)}>Apply</button></div>
+                    <div><button onClick={(e) => this.applyForJob(this.savedJobs[key].jobId, e)}>Apply</button></div>
                 </div>
             </div>
             );
-       }
+       });
       return (
          <div>
             <h2>Saved Jobs</h2>

@@ -31,8 +31,6 @@ class Signup extends Component {
       }
 
       typeChange(event) {
-          alert(event.value);
-          alert(event.label);
         this.state.type = event.target.value;
       }
 
@@ -48,7 +46,7 @@ class Signup extends Component {
       }
     
       handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.firstName+' '+this.state.lastName+' '+this.state.emailAddress+' '+this.type+' '+this.state.contactNumber+' '+this.state.password+' '+this.state.confirmPassword);
+        alert('A name was submitted: ' + this.state.firstName+' '+this.state.lastName+' '+this.state.emailAddress+' '+this.state.type+' '+this.state.contactNumber+' '+this.state.password+' '+this.state.confirmPassword);
         //event.preventDefault();
       }
 
@@ -63,7 +61,7 @@ class Signup extends Component {
              "contactNumber":this.state.firstName, 
              "password":this.state.firstName
             };
-        axios.post(apiBaseUrl+'signup', payload)
+        /*axios.post(apiBaseUrl+'signup', payload)
             .then(function (response) {
                 console.log(response);
                 if(response.data.code == 200){
@@ -80,7 +78,7 @@ class Signup extends Component {
                 }
             }).catch(function (error) {
                 console.log(error);
-            });
+            });*/
     }
 
    render() {
@@ -109,7 +107,13 @@ class Signup extends Component {
                 <div className={'labelDiv'}>
                     <label className={'required'}>
                         Type
-                        <Dropdown options={options} className={'typeInput'} onChange={this._onSelect} onClick={this.typeChange} value={defaultOption} placeholder="Select an option" />
+                        <select className={'typeInput'} value={this.state.value} onChange={this.typeChange}>
+                            <option value=""></option>
+                            <option value="CD">Candidate</option>
+                            <option value="MR">Manager</option>
+                            <option value="HR">HR</option>
+                        </select>
+                          
                     </label>
                 </div>                
                 <div className={'labelDiv'}>
